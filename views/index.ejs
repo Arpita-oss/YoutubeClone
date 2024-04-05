@@ -1,0 +1,23 @@
+<%- include('./partials/header.ejs') %>
+<section style="flex-flow: row wrap;" class="w-full gap-x-4 gap-y-3 videos ">
+  <% videos.forEach(video=>{%>
+  <a href="/currentVideo/<%= video._id %>" class="video w-full flex flex-col gap-2 ">
+  
+
+    <video class="w-full object-contain" preload="metadata" src="/video/<%= video.media %>" alt=""></video>
+    </a>
+   <div class="details flex gap-3 px-2">
+      <img class="h-8 w-8 rounded-full" src="https://images.unsplash.com/photo-1709423377993-1a4d150e918c?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwxMTB8fHxlbnwwfHx8fHw%3D" alt="">
+      <div class="text truncate w-full">
+        <h4 class="truncate leading-none whitespace-nowrap"><%= video.title%></h4>
+        <small class="text-slate-500"><span>lorem</span>•<span>100klorem</span>•<span>lorem</span></small>
+      </div>
+      <button class="h-fit">
+        <i data-feather="more-vertical"></i>
+      </button>
+    </div>
+  </a>
+  <%})%>
+  
+</section>
+<%- include('./partials/footer.ejs') %>
