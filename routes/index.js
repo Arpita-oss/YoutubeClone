@@ -33,11 +33,11 @@ const STREAMING_KEY = process.env.STREAM_KEY
 
 router.get('/currentVideo/:videoId', isloggedIn, async function (req, res, next) {
   const currentVideo = await videoModel.findOne({
-    _id:req.params.videoId
+    _id: req.params.videoId
   })
 
   const videoUrl = `https:// ${HOSTNAME} /  ${STORAGE_ZONE_NAME} /${currentVideo.media}?accessKey=${STREAMING_KEY}`
-  res.render('currentVideo',{videoUrl})
+  res.render('currentVideo', { videoUrl })
 })
 
 router.get('/upload', isloggedIn, (req, res, next) => {
@@ -72,7 +72,7 @@ router.post(
 function isloggedIn(req, res, next) {
   if (req.isAuthenticated()) return next();
   else res.redirect('/login');
-} 
+}
 
 router.get('/logout', (req, res, next) => {
   if (req.isAuthenticated())
@@ -102,9 +102,8 @@ const uploadFileToBunnyCDN = (filePath, fileName) => {
           'Content-Type': 'application/octet-stream',
         },
       });
-
       resolve(response.data);
-    }catch (error) {
+    } catch (error) {
       reject(error);
     }
   });
@@ -115,19 +114,17 @@ const uploadFileToBunnyCDN = (filePath, fileName) => {
 
 router.post('/upload', isloggedIn, upload.single('video_file'), async (req, res, next) => {
 
-const newVideo = await videoModel.create({
-  media:req.file.filename,
-  user:req.user._id,
-  title:req.body.title,
-  description:req.body.description
-})
+  const newVideo = await videoModel.create({
+    media: req.file.filename,
+    user: req.user._id,
+    title: req.body.title,
+    description: req.body.description
+  })
 
-const response = await uploadFileToBunnyCDN(`./public/video/${req.file.filename}`, req.file.filename);
-
-
+  const response = await uploadFileToBunnyCDN(`./public/video/${req.file.filename}`, req.file.filename);
 
 
-res.send(response)
+  res.send(response)
 
 })
 
